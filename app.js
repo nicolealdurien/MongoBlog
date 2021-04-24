@@ -1,14 +1,18 @@
 const express = require('express')
 const app = express()
-
-
+const morgan = require('morgan')
 
 
 app.set('view engine', 'ejs')
 
+app.use(express.static('public'))
+app.use(morgan('dev'))
+
+
+
 app.get('/', (req, res) => {
     const blogs = [
-        {title: 'Yoshi finds eggs', snippet: 'Lorem ipsum dolor sit ayada yada'},
+        {title: 'Yoshi finds eggs', snippet: 'Lorem ipsum dolor sit yada yada'},
         {title: 'Mario finds stars', snippet: 'Lorem ipsum dolor sit yada yada'},
         {title: 'Peach finds mushrooms', snippet: 'Lorem ipsum dolor sit yada yada'}
     ]
