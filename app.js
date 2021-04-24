@@ -2,12 +2,45 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const mongoose = require('mongoose')
+const BlogEntry = require('./models/blogEntry')
 
-// connection string
-const dbURI = 'mongodb+srv://nicolealdurien:MDBAthumper27@cluster0.nijve.mongodb.net/blogdb?retryWrites=true&w=majority';
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true})
-.then((result) => console.log('connected to db'))
-.catch((err) => console.log(err))
+mongoose.connect('mongodb://localhost:27017/blogdb', { useNewURLParser: true }, (error) => {
+    if(error) {
+        console.log('unable to connect to db')
+    } else {
+        console.log('connected to blogdb')
+    }
+})
+
+// const blogEntry = new BlogEntry({
+//     title: 'Is this the real life?',
+//     snippet: 'Is this just fantasy?',
+//     body: 'Caught in a landslide / no escape from reality'
+// })
+
+// blogEntry.save((error, newBlogEntry) => {
+//     if(error) {
+//         console.log(error)
+//     } else {
+//         console.log(newBlogEntry)
+//     }
+// })
+
+// BlogEntry.find({}, (error, blogentries) => {
+//     console.log(blogentries)
+// })
+
+// BlogEntry.findById('60839a230c274a712470bdf4', (error, blogEntry) => {
+//     console.log(blogEntry)
+// })
+
+// BlogEntry.findOne({_id: '60839a230c274a712470bdf4'}, (error, blogEntry) => {
+//     console.log(blogEntry)
+// })
+
+BlogEntry.findOne({title: 'Is this the real life?'}, (error, blogEntry) => {
+    console.log(blogEntry)
+})
 
 app.set('view engine', 'ejs')
 
