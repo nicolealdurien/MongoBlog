@@ -4,6 +4,8 @@ const morgan = require('morgan')
 const mongoose = require('mongoose')
 const BlogEntry = require('./models/blogEntry')
 
+mongoose.set('useFindAndModify', false)
+
 mongoose.connect('mongodb://localhost:27017/blogdb', { useNewURLParser: true }, (error) => {
     if(error) {
         console.log('unable to connect to db')
@@ -12,6 +14,12 @@ mongoose.connect('mongodb://localhost:27017/blogdb', { useNewURLParser: true }, 
     }
 })
 
+app.set('view engine', 'ejs')
+
+app.use(express.static('public'))
+app.use(morgan('dev'))
+
+// ADD NEW ENTRY
 // const blogEntry = new BlogEntry({
 //     title: 'Is this the real life?',
 //     snippet: 'Is this just fantasy?',
@@ -26,10 +34,12 @@ mongoose.connect('mongodb://localhost:27017/blogdb', { useNewURLParser: true }, 
 //     }
 // })
 
+// VIEW ALL
 // BlogEntry.find({}, (error, blogentries) => {
 //     console.log(blogentries)
 // })
 
+// VIEW ONE IN VARIOUS WAYS
 // BlogEntry.findById('60839a230c274a712470bdf4', (error, blogEntry) => {
 //     console.log(blogEntry)
 // })
@@ -38,14 +48,26 @@ mongoose.connect('mongodb://localhost:27017/blogdb', { useNewURLParser: true }, 
 //     console.log(blogEntry)
 // })
 
-BlogEntry.findOne({title: 'Is this the real life?'}, (error, blogEntry) => {
-    console.log(blogEntry)
-})
+// BlogEntry.findOne({title: 'Is this the real life?'}, (error, blogEntry) => {
+//     console.log(blogEntry)
+// })
 
-app.set('view engine', 'ejs')
+// UPDATE
+// const updatedDoc = {
+//     title: 'Open your eyes',
+//     snippet: 'Look up to the skies and see',
+//     body: 'I am just a poor boy / I need no sympathy'
+// }
 
-app.use(express.static('public'))
-app.use(morgan('dev'))
+// BlogEntry.findOneAndUpdate({_id: '608397122f8a32705f929ea8'}, updatedDoc, (error, result) => {
+//     console.log(result)
+// })
+
+
+// DELETE
+// BlogEntry.findOneAndDelete({_id: '608397122f8a32705f929ea8'}, (error, result) => {
+//     console.log(result)
+// })
 
 
 
