@@ -3,6 +3,7 @@ const app = express()
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const BlogEntry = require('./models/blogEntry')
+const { render } = require('ejs')
 
 mongoose.set('useFindAndModify', false)
 
@@ -17,6 +18,7 @@ mongoose.connect('mongodb://localhost:27017/blogdb', { useNewURLParser: true }, 
 app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true}))
 app.use(morgan('dev'))
 
 // ADD NEW ENTRY
@@ -69,25 +71,84 @@ app.use(morgan('dev'))
 //     console.log(result)
 // })
 
+// app.get('/add-blog', (req, res) => {
+//     const blogEntry = new BlogEntry({
+//         title: 'new blog',
+//         snippet: 'about my new blog',
+//         body: 'more about my new blog'
+//     })
+
+//     blogEntry.save()
+//     .then((result) => {
+//         res.send(result)
+//     }).catch((err) => {
+//         console.log(err)
+//     })
+// })
+
+// app.get('/all-blogs', (req, res) => {
+//   BlogEntry.find()
+//   .then((result) => {
+//       res.send(result)
+//   }).catch((err) => {
+//       console.log(err)
+//   })
+// })
+
+// app.get('/single-blog', (req, res) => {
+//     BlogEntry.findById('6087759adc565ad93434aa72')
+//     .then((result) => {
+//         res.send(result)
+//     }).catch((err) => {
+//         console.log(err)
+//     })
+// })
 
 
+// ROUTES
 app.get('/', (req, res) => {
-    const blogs = [
-        {title: 'Yoshi finds eggs', snippet: 'Lorem ipsum dolor sit yada yada'},
-        {title: 'Mario finds stars', snippet: 'Lorem ipsum dolor sit yada yada'},
-        {title: 'Peach finds mushrooms', snippet: 'Lorem ipsum dolor sit yada yada'}
-    ]
-    res.render('index', { title: 'Home', blogs: blogs})
+  res.redirect('/blogs')
 })
 
 app.get('/about', (req, res) => {
     res.render('about', { title: 'About' })
 })
 
+
+// BLOG ROUTES
+app.get('/blogs', (req, res) => {
+    BlogEntry.find().sort({ createdAt: -1 })
+    .then((result) => {
+        res.render('index', {title: 'All Blogs', blogs: result})
+    }).catch((err) => {
+        console.log(err)
+    })
+})
+
 app.get('/blogs/create', (req, res) => {
     res.render('create', { title: 'Create a new Blog' })
 })
 
+app.post('/blogs', (req, res) => {
+  const blogEntry = new BlogEntry(req.body)
+
+    blogEntry.save()
+    .then((result) => {
+        res.redirect('/blogs')
+    }).catch((err) => {
+    console.log(err)
+    })
+})
+
+app.get('/blogs/:id', (req, res) => {
+    const id = req.params.id
+    BlogEntry.findById(id)
+    .then(result => {
+        render('details', {blog: result, title: 'Blog Details'})
+    }).catch(err => {
+        console.log(err)
+    })
+})
 
 // redirect for old url
 // app.get('/about-us', (req, res) => {
