@@ -1,12 +1,8 @@
 const mongoose = require('mongoose')
-
+// const Comment = require('./comment')
 
 const blogEntrySchema = new mongoose.Schema({
     title: {
-        type: String,
-        required: true
-    },
-    snippet: {
         type: String,
         required: true
     },
@@ -14,6 +10,7 @@ const blogEntrySchema = new mongoose.Schema({
         type: String,
         required: true
     }
+    // comments: [Comment.schema]
 }, {timestamps: true})
 
 const BlogEntry = mongoose.model('BlogEntry', blogEntrySchema)
