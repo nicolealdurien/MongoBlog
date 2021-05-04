@@ -7,21 +7,24 @@ const mongoose = require('mongoose')
 const { render } = require('ejs')
 const blogRoutes = require('./routes/blogRoutes')
 const BlogEntry = require('./models/blogEntry')
+const bodyParser = require('body-parser')
 // const Comment = require('./models/comment')
 
 mongoose.set('useFindAndModify', false)
 
-mongoose.connect('mongodb+srv://DBtestuser:DBtestuser@cluster0.nijve.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewURLParser: true, useUnifiedTopology: true}, (error) => {
+
+mongoose.connect('mongodb+srv://DBtest1:DBtest1@cluster0.hnnr9.mongodb.net/blogdb?retryWrites=true&w=majority', {useNewURLParser: true, useUnifiedTopology: true}, (error) => {
     if(error) {
-        console.log('unable to connect to db')
+        console.log('Unable to connect to blogdb')
     } else {
-        console.log('connected to database')
+        console.log('Connected to blogdb on Atlas!')
     }
 })
 
-app.set('view engine', 'ejs')
 
+app.set('view engine', 'ejs')
 app.use(express.static('public'))
+app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true}))
 app.use(morgan('dev'))
 app.use('/blogs', blogRoutes)
@@ -36,7 +39,14 @@ app.get('/about', (req, res) => {
 })
 
 
+app.get('/admin', (req, res) => {
+    res.render('admin', { title: 'Admin' })
+})
 
+app.post('/api/register', async (req, res) => {
+    console.log(req.body)
+    res.json({status: 'ok'})
+})
 
 
 

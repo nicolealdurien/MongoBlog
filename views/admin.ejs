@@ -1,0 +1,43 @@
+<!doctype html>
+
+<html lang="en">
+<%- include('./partials/head.ejs') %>
+
+<body>
+
+    <%- include('./partials/nav.ejs') %>
+
+    <div class='blogs content'>
+        <h2>Add New Admin</h2>
+        <form id = 'reg-form'>
+            <input type = 'text' id = 'username' placeholder = 'Username' />
+            <input type = 'password' id = 'password' placeholder = 'Password' />
+            <button type = 'submit'>Add New Admin</button>
+        </form>
+    </div>
+  <!-- <script src="js/scripts.js"></script> -->
+  <script>
+      const form = document.getElementById('reg-form')
+      form.addEventListener('submit', registerUser)
+
+      async function registerUser(event) {
+          event.preventDefault()
+          const username = document.getElementById('username').value
+          const password = document.getElementById('password').value
+
+          const result = await fetch('/api/register', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  username,
+                  password
+              })
+          }).then((res) => res.json())
+          console.log(result)
+      }
+  </script>
+</body>
+<%- include('./partials/footer.ejs') %>
+</html>
