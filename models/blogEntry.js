@@ -11,7 +11,7 @@ const blogEntrySchema = new mongoose.Schema({
         required: true
     }
     // comments: [Comment.schema]
-}, {timestamps: true})
+}, {collection: 'blogentries', timestamps: true})
 
 const BlogEntry = mongoose.model('BlogEntry', blogEntrySchema)
 

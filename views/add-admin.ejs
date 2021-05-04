@@ -1,0 +1,64 @@
+<!doctype html>
+
+<html lang="en">
+<%- include('./partials/head.ejs') %>
+
+<body>
+
+    <nav>
+        <div class='site-title'>
+            <a href='/'><h1>From Test Tubes To Pull Requests</h1></a><br/>
+            <p>My journey from healthcare to software development</p>
+            </div>
+            <ul>
+                <li><a href='/'>Blogs</a></li>
+                <li><a href='/about'>About</a></li>
+                <li><a href='/blogs/create'>New Post</a></li>
+            </ul>
+    </nav>
+
+    <div class='blogs content'>
+
+        <div class='admin'>
+        <h2>Add New Admin</h2>
+        <form id = 'reg-form'>
+            <input type = 'text' id = 'username' placeholder = 'Username' />
+            <input type = 'password' id = 'password' placeholder = 'Password' />
+            <button type = 'submit' class = 'admin'>Add Admin</button>
+        </form>
+        </div>
+    </div>
+  <!-- <script src="js/scripts.js"></script> -->
+
+  <script>
+      const form = document.getElementById('reg-form')
+      form.addEventListener('submit', registerAdmin)
+
+      async function registerAdmin(event) {
+          event.preventDefault()
+          const username = document.getElementById('username').value
+          const password = document.getElementById('password').value
+
+          const result = await fetch('/api/register', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  username,
+                  password
+              })
+          }).then((res) => res.json())
+
+          if(result.status === 'ok') {
+            // everything went fine
+            console.log('Got the token: ', result.data)
+          } else {
+              alert(result.error)
+          }
+          console.log(result)
+      }
+  </script>
+</body>
+<%- include('./partials/footer.ejs') %>
+</html>
