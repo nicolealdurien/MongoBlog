@@ -7,6 +7,7 @@ const morgan = require('morgan')
 const mongoose = require('mongoose')
 const { render } = require('ejs')
 const blogRoutes = require('./routes/blogRoutes')
+const authRoutes = require('./routes/authRoutes')
 const BlogEntry = require('./models/blogEntry')
 const Admin = require('./models/admin')
 const bodyParser = require('body-parser')
@@ -31,7 +32,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
-app.use(bodyParser.json())
+app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
 app.use(morgan('dev'))
 app.use('/blogs', blogRoutes)
@@ -44,6 +45,8 @@ app.get('/', (req, res) => {
 app.get('/about', (req, res) => {
     res.render('about', { title: 'About' })
 })
+
+app.use(authRoutes)
 
 app.get('/add-admin', authenticate, (req, res) => {
     res.render('add-admin', { title: 'Add Admin' })

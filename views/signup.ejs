@@ -1,0 +1,14 @@
+<%- include('./partials/head.ejs') %>
+<body>
+
+<%- include('./partials/nav.ejs') %>
+<form>
+    <h2>Sign Up</h2>
+    <input type = 'text' name = 'email' placeholder = 'Email address' required />
+    <div class='email error'></div>
+    <input type = 'password' name = 'password' placeholder = 'Enter password' required />
+    <div class='password error'></div>
+    <button>Sign Up</button>
+</form>
+</body>
+<%- include('partials/footer.ejs'); -%>
