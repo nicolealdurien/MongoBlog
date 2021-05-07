@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 const { render } = require('ejs')
 const blogRoutes = require('./routes/blogRoutes')
 const authRoutes = require('./routes/authRoutes')
+const cookieParser = require('cookie-parser')
 const BlogEntry = require('./models/blogEntry')
 const Admin = require('./models/admin')
 const bodyParser = require('body-parser')
@@ -33,6 +34,7 @@ mongoose.connect(process.env.MONGO_URI, {
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(express.json())
+app.use(cookieParser())
 app.use(express.urlencoded({ extended: true}))
 app.use(morgan('dev'))
 app.use('/blogs', blogRoutes)
@@ -141,6 +143,7 @@ app.post('/api/register', async (req, res) => {
     }
     res.json({status: 'ok'})
 })
+
 
 
 
