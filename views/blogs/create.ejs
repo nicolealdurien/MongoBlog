@@ -14,8 +14,13 @@
             <textarea id='body' required name='body'></textarea>
             <button>Submit</button>
         </form>
+
+        <textarea name="editor1"></textarea>
+                
     </div>
-  <!-- <script src="js/scripts.js"></script> -->
+    <script>
+        CKEDITOR.replace( 'editor1' );
+    </script>
 </body>
 <%- include('../partials/footer.ejs') %>
 </html>
